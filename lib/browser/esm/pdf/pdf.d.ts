@@ -10,6 +10,8 @@ export declare class QRBill {
     private _outlines;
     private _language;
     private _marginTop;
+    private _fontName;
+    private _fontNameBold;
     constructor(data: Data, options?: Options);
     /**
      * Adds the QR Slip to the bottom of the current page if there is enough space, otherwise it will create a new page with the specified size and add it to the bottom of this page.

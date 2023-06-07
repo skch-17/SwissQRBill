@@ -106,6 +106,10 @@ export interface Options {
      * @defaultValue `true`
      */
     outlines?: boolean;
+    /**
+     * The used font name for the qr bill.
+     */
+    fontName?: string;
 }
 export interface SVGOptions {
     /**
