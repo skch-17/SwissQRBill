@@ -16,6 +16,8 @@ export class QRBill {
   private _outlines: boolean = true;
   private _language: Languages = "DE";
   private _marginTop: number = 0;
+  private _fontName: string = "Helvetica"
+  private _fontNameBold: string = "Helvetica-Bold"
 
   constructor(data: Data, options?: Options) {
 
@@ -58,6 +60,10 @@ export class QRBill {
       }
       if(options.outlines !== undefined){
         this._outlines = options.outlines;
+      }
+      if(options.fontName !== undefined){
+        this._fontName = options.fontName
+        this._fontName = options.fontName + "-Bold"
       }
     }
   }
@@ -161,7 +167,7 @@ export class QRBill {
       if(doc.page.height > utils.mm2pt(105)){
 
         doc.fontSize(11);
-        doc.font("Helvetica");
+        doc.font(this._fontName);
         doc.text(translations[this._language].separate, utils.mm2pt(0), this._marginTop - 12, {
           width: utils.mm2pt(210),
           align: "center"
@@ -175,14 +181,14 @@ export class QRBill {
     //-- Receipt
 
     doc.fontSize(11);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].receipt, utils.mm2pt(5), this._marginTop + utils.mm2pt(5), {
       width: utils.mm2pt(52),
       align: "left"
     });
 
     doc.fontSize(6);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].account, utils.mm2pt(5), this._marginTop + utils.mm2pt(12) + 3, {
       width: utils.mm2pt(52),
       lineGap: 1
@@ -192,7 +198,7 @@ export class QRBill {
     //-- Creditor
 
     doc.fontSize(8);
-    doc.font("Helvetica");
+    doc.font(this._fontName);
     doc.text(`${utils.formatIBAN(this._data.creditor.account)}\n${this._formatAddress(this._data.creditor)}`, {
       width: utils.mm2pt(52),
       lineGap: -.5
@@ -206,14 +212,14 @@ export class QRBill {
     if(this._data.reference !== undefined){
 
       doc.fontSize(6);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].reference, {
         width: utils.mm2pt(52),
         lineGap: 1
       });
 
       doc.fontSize(8);
-      doc.font("Helvetica");
+      doc.font(this._fontName);
       doc.text(utils.formatReference(this._data.reference), {
         width: utils.mm2pt(52),
         lineGap: -.5
@@ -230,14 +236,14 @@ export class QRBill {
       doc.moveDown();
 
       doc.fontSize(6);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].payableBy, {
         width: utils.mm2pt(52),
         lineGap: 1
       });
 
       doc.fontSize(8);
-      doc.font("Helvetica");
+      doc.font(this._fontName);
       doc.text(this._formatAddress(this._data.debtor), {
         width: utils.mm2pt(52),
         lineGap: -.5
@@ -249,7 +255,7 @@ export class QRBill {
       doc.moveDown();
 
       doc.fontSize(6);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].payableByName, {
         width: utils.mm2pt(52),
         lineGap: 1
@@ -266,7 +272,7 @@ export class QRBill {
     //-- Amount
 
     doc.fontSize(6);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].currency, utils.mm2pt(5), this._marginTop + utils.mm2pt(68), {
       width: utils.mm2pt(15),
       lineGap: 1
@@ -280,7 +286,7 @@ export class QRBill {
     });
 
     doc.fontSize(8);
-    doc.font("Helvetica");
+    doc.font(this._fontName);
     doc.text(this._data.currency, utils.mm2pt(5), this._marginTop + utils.mm2pt(71), {
       width: utils.mm2pt(15),
       lineGap: -.5
@@ -296,7 +302,7 @@ export class QRBill {
     }
 
     doc.fontSize(6);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].acceptancePoint, utils.mm2pt(5), this._marginTop + utils.mm2pt(82), {
       width: utils.mm2pt(52),
       align: "right",
@@ -307,7 +313,7 @@ export class QRBill {
     //-- Payment part middle container
 
     doc.fontSize(11);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].paymentPart, utils.mm2pt(67), this._marginTop + utils.mm2pt(5), {
       width: utils.mm2pt(51),
       align: "left",
@@ -324,7 +330,7 @@ export class QRBill {
     //-- Amount
 
     doc.fontSize(8);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].currency, utils.mm2pt(67), this._marginTop + utils.mm2pt(68), {
       width: utils.mm2pt(15),
       lineGap: 1
@@ -335,7 +341,7 @@ export class QRBill {
     });
 
     doc.fontSize(10);
-    doc.font("Helvetica");
+    doc.font(this._fontName);
     doc.text(this._data.currency, utils.mm2pt(67), this._marginTop + utils.mm2pt(72), {
       width: utils.mm2pt(15),
       lineGap: -.5
@@ -358,14 +364,14 @@ export class QRBill {
       const [scheme, data] = this._data.av1.split(/(\/.+)/);
 
       doc.fontSize(7);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(scheme, utils.mm2pt(67), this._marginTop + utils.mm2pt(90), {
         width: utils.mm2pt(138),
         continued: true,
         lineGap: 1
       });
 
-      doc.font("Helvetica");
+      doc.font(this._fontName);
       doc.text(this._data.av1.length > 90 ? data.substr(0, 87) + "..." : data, {
         continued: false
       });
@@ -377,14 +383,14 @@ export class QRBill {
       const [scheme, data] = this._data.av2.split(/(\/.+)/);
 
       doc.fontSize(7);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(scheme, utils.mm2pt(67), this._marginTop + utils.mm2pt(93), {
         width: utils.mm2pt(138),
         continued: true,
         lineGap: 1
       });
 
-      doc.font("Helvetica");
+      doc.font(this._fontName);
       doc.text(this._data.av2.length > 90 ? data.substr(0, 87) + "..." : data, {
         lineGap: -.5
       });
@@ -395,14 +401,14 @@ export class QRBill {
     //-- Payment part right column
 
     doc.fontSize(8);
-    doc.font("Helvetica-Bold");
+    doc.font(this._fontNameBold);
     doc.text(translations[this._language].account, utils.mm2pt(118), this._marginTop + utils.mm2pt(5) + 3, {
       width: utils.mm2pt(87),
       lineGap: 1
     });
 
     doc.fontSize(10);
-    doc.font("Helvetica");
+    doc.font(this._fontName);
     doc.text(`${utils.formatIBAN(this._data.creditor.account)}\n${this._formatAddress(this._data.creditor)}`, {
       width: utils.mm2pt(87),
       lineGap: -.75
@@ -413,14 +419,14 @@ export class QRBill {
     if(this._data.reference !== undefined){
 
       doc.fontSize(8);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].reference, {
         width: utils.mm2pt(87),
         lineGap: 1
       });
 
       doc.fontSize(10);
-      doc.font("Helvetica");
+      doc.font(this._fontName);
       doc.text(utils.formatReference(this._data.reference), {
         width: utils.mm2pt(87),
         lineGap: -.75
@@ -436,14 +442,14 @@ export class QRBill {
     if(this._data.message !== undefined || this._data.additionalInformation !== undefined){
 
       doc.fontSize(8);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].additionalInformation, {
         width: utils.mm2pt(87),
         lineGap: 1
       });
 
       doc.fontSize(10);
-      doc.font("Helvetica");
+      doc.font(this._fontName);
 
       const options = {
         width: utils.mm2pt(87),
@@ -489,14 +495,14 @@ export class QRBill {
     if(this._data.debtor !== undefined){
 
       doc.fontSize(8);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].payableBy, {
         width: utils.mm2pt(87),
         lineGap: 1
       });
 
       doc.fontSize(10);
-      doc.font("Helvetica");
+      doc.font(this._fontName);
       doc.text(this._formatAddress(this._data.debtor), {
         width: utils.mm2pt(87),
         lineGap: -.75
@@ -505,7 +511,7 @@ export class QRBill {
     } else {
 
       doc.fontSize(8);
-      doc.font("Helvetica-Bold");
+      doc.font(this._fontNameBold);
       doc.text(translations[this._language].payableByName, {
         width: utils.mm2pt(87),
         lineGap: 1
