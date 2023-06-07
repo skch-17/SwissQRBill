@@ -62,8 +62,10 @@ export class QRBill {
         this._outlines = options.outlines;
       }
       if(options.fontName !== undefined){
-        this._fontName = options.fontName
-        this._fontName = options.fontName + "-Bold"
+        this._fontName = options.fontName;
+      }
+      if(options.fontNameBold !== undefined){
+        this._fontNameBold = options.fontNameBold;
       }
     }
   }

@@ -110,6 +110,7 @@ export interface Options {
      * The used font name for the qr bill.
      */
     fontName?: string;
+    fontNameBold?: string;
 }
 export interface SVGOptions {
     /**
