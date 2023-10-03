@@ -10,6 +10,7 @@ export declare class SwissQRBill {
     private separate;
     private outlines;
     private language;
+    private fontName;
     private size;
     private _x;
     private _y;
